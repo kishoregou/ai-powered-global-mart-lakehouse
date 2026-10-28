@@ -1,0 +1,59 @@
+# Global Mart Lakehouse — Setup Guide
+
+## 1. Prerequisites
+
+- A Databricks workspace with permission to create tables.
+- The Olist Brazilian E-Commerce dataset.
+- Access to a Unity Catalog Volume or another supported storage location.
+
+## 2. Upload the Dataset
+
+Download the Olist CSV files and upload them to your Databricks Volume.
+
+Required files include:
+
+- `olist_orders_dataset.csv`
+- `olist_order_items_dataset.csv`
+- `olist_customers_dataset.csv`
+- `olist_products_dataset.csv`
+- `olist_sellers_dataset.csv`
+- `olist_order_payments_dataset.csv`
+- `olist_order_reviews_dataset.csv`
+- `olist_geolocation_dataset.csv`
+- `product_category_name_translation.csv`
+
+## 3. Configure the Source Path
+
+Open `01_bronze_ingestion.py` and replace the example source path with the actual path to your uploaded CSV files.
+
+Configure your catalog and schema names to match your Databricks workspace.
+
+## 4. Execute the Pipeline
+
+Run the notebooks in this order:
+
+1. `01_bronze_ingestion.py` — ingest source data.
+2. `02_silver_transformations.py` — clean and standardize data.
+3. `03_gold_analytics.py` — generate retail analytics.
+4. `04_quality_checks.py` — check data quality.
+5. `05_anomaly_detection.py` — identify unusual prices.
+6. `06_ai_delivery_prediction.py` — train the delivery prediction model.
+7. `07_ai_model_evaluation.py` — evaluate saved predictions.
+
+## 5. AI Model
+
+The prototype uses Spark ML's Random Forest classifier to predict late delivery from historical order data.
+
+The model's metrics must be evaluated on held-out test data. Before production use, review feature availability, class imbalance, data leakage, and baseline performance.
+
+## 6. Troubleshooting
+
+- Confirm all required source files exist.
+- Verify the catalog, schema, Volume path, and permissions.
+- Run notebooks in the specified order.
+- Check that the Silver tables contain valid delivery timestamps.
+- Review error messages in Databricks if a notebook fails.
+
+## Project Status
+
+This repository contains project code and setup documentation. Successful end-to-end execution and model validation must be completed in Databricks.
